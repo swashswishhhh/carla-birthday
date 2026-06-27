@@ -16,54 +16,20 @@ const RIGHT_X = 8.95;     // just in front of the right wall
 
 // ─── Color Palette ────────────────────────────────────────────────
 const COLORS = {
-  warmWood: '#C9A878',
-  darkBrown: '#993C1D',
-  dustyRose: '#D4A9A1',
-  cream: '#F5E6D3',
-  linen: '#E8D5C4',
-  sage: '#7B9D7D',
-  lanternGlow: '#FFC8A3',
-  peach: '#FFB88C',
-  gold: '#FFD4A3',
+  warmWood:   '#C9A878',
+  darkBrown:  '#993C1D',
+  dustyRose:  '#D4A9A1',
+  cream:      '#F5E6D3',
+  linen:      '#E8D5C4',
+  sage:       '#7B9D7D',
+  lanternGlow:'#FFC8A3',
+  peach:      '#FFB88C',
+  gold:       '#FFD4A3',
 };
 
 // ═══════════════════════════════════════════════════════════════════
 //  Sub-components
 // ═══════════════════════════════════════════════════════════════════
-
-// ─── Mini Origami Crane for Garland ────────────────────────────────
-function MiniOrigamiCrane({ position, color }) {
-  return (
-    <group position={position} scale={0.25}>
-      {/* Main body */}
-      <mesh castShadow>
-        <coneGeometry args={[0.2, 0.5, 4]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
-      </mesh>
-      {/* Wings */}
-      <mesh position={[-0.2, 0.1, 0]} rotation={[0.4, 0, -0.6]} castShadow>
-        <boxGeometry args={[0.4, 0.01, 0.25]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
-      </mesh>
-      <mesh position={[0.2, 0.1, 0]} rotation={[0.4, 0, 0.6]} castShadow>
-        <boxGeometry args={[0.4, 0.01, 0.25]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
-      </mesh>
-      {/* Neck */}
-      <mesh position={[0, 0.22, 0.18]} rotation={[-0.4, 0, 0]} castShadow>
-        <boxGeometry args={[0.04, 0.35, 0.04]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
-      </mesh>
-      {/* Tail */}
-      <mesh position={[0, 0.18, -0.2]} rotation={[0.5, 0, 0]} castShadow>
-        <boxGeometry args={[0.03, 0.3, 0.03]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
-      </mesh>
-    </group>
-  );
-}
-
-
 
 // ─── Shelf Bracket Pair ───────────────────────────────────────────
 function ShelfBrackets({ width }) {
@@ -367,18 +333,17 @@ export default function WallDecorations() {
             anchorX="center"
             anchorY="middle"
           >
-            Happy Birthday
+            Happy Birthday Carla
           </Text>
-          {/* Japanese sub-text */}
+          {/* Korean sub-text */}
           <Text
             position={[0, -0.28, 0.04]}
-            fontSize={0.20}
+            fontSize={0.28}
             color={COLORS.darkBrown}
-            font="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff"
             anchorX="center"
             anchorY="middle"
           >
-            お誕生日おめでとうございます
+            생일 축하합니다
           </Text>
 
           {/* Corner bunting cones — top-left */}
@@ -459,7 +424,7 @@ export default function WallDecorations() {
           </FloatingShelf>
         </group>
 
-        {/* ── Japanese Text Plaque ── */}
+        {/* ── Korean Text Decoration ── */}
         <group position={[LEFT_X + 0.12, 6.5, -3]} rotation={[0, Math.PI / 2, 0]}>
           {/* Background plaque */}
           <mesh castShadow>
@@ -470,11 +435,10 @@ export default function WallDecorations() {
             position={[0, 0, 0.03]}
             fontSize={0.3}
             color={COLORS.darkBrown}
-            font="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff"
             anchorX="center"
             anchorY="middle"
           >
-            お誕生日
+            카페 생일
           </Text>
         </group>
       </group>
@@ -488,26 +452,23 @@ export default function WallDecorations() {
         {/* ── Hanging Lantern (mirror of left) ── */}
         <HangingLantern position={[RIGHT_X - 0.15, 7.5, -2]} />
 
-        {/* ── Birthday Garland with Origami Cranes (spans the wall at Y≈7) ── */}
+        {/* ── Birthday Garland with Bunting (spans the wall at Y≈7) ── */}
         <group position={[RIGHT_X - 0.12, 6.5, 0]} rotation={[0, -Math.PI / 2, 0]}>
           {/* String / rope */}
           <mesh>
             <boxGeometry args={[12, 0.02, 0.02]} />
             <meshStandardMaterial color="#8b7355" roughness={0.9} />
           </mesh>
-          {/* Hanging Origami Cranes alternating colors */}
+          {/* Bunting triangles alternating colors */}
           {Array.from({ length: 9 }).map((_, i) => {
             const x = -5.5 + i * 1.4;
-            const color = i % 2 === 0 ? COLORS.dustyRose : COLORS.sage;
+            const color = i % 2 === 0 ? COLORS.dustyRose : COLORS.warmWood;
             return (
-              <group key={`crane-g-${i}`} position={[x, -0.15, 0]}>
-                {/* Hanging string from rope */}
-                <mesh position={[0, 0.075, 0]}>
-                  <boxGeometry args={[0.005, 0.15, 0.005]} />
-                  <meshBasicMaterial color="#ebdccb" />
-                </mesh>
-                <MiniOrigamiCrane color={color} />
-              </group>
+              <BuntingTriangle
+                key={`bunting-r-${i}`}
+                position={[x, -0.18, 0]}
+                color={color}
+              />
             );
           })}
         </group>
